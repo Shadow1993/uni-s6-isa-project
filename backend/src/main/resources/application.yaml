@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: ${APP_NAME}
+  config:
+    import: "optional:file:.env[.properties]"
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jackson:
+    mapper:
+      sort-properties-alphabetically: false
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: ${SPRING_DATASOURCE_DIALECT}
+server:
+    port: ${PORT}
