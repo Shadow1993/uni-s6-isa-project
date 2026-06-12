@@ -1,0 +1,76 @@
+package rs.ac.singidunum.novisad.isaproject2023270048.dtos.user;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import rs.ac.singidunum.novisad.isaproject2023270048.dtos.BaseDTO;
+import rs.ac.singidunum.novisad.isaproject2023270048.dtos.assignedrole.AssignedRoleDTOLeaf;
+import rs.ac.singidunum.novisad.isaproject2023270048.models.UserModel;
+
+public class UserDTO extends BaseDTO<UserModel> {
+
+	private String email;
+	private String password;
+	private List<AssignedRoleDTOLeaf> assignedRoles = new ArrayList<AssignedRoleDTOLeaf>();
+
+	public UserDTO() {
+		super();
+	}
+
+	public UserDTO(Long id, Boolean active, LocalDateTime createdAt) {
+		super(id, active, createdAt);
+	}
+
+	public UserDTO(String email, String password) {
+		this();
+		this.email = email;
+		this.password = password;
+	}
+
+	public UserDTO(String email, String password, List<AssignedRoleDTOLeaf> assignedRoles) {
+		this();
+		this.email = email;
+		this.password = password;
+		this.assignedRoles = assignedRoles;
+	}
+
+	public UserDTO(Long id, Boolean active, LocalDateTime createdAt, String email, String password) {
+		this(id, active, createdAt);
+		this.email = email;
+		this.password = password;
+	}
+
+	public UserDTO(Long id, Boolean active, LocalDateTime createdAt, String email, String password,
+			List<AssignedRoleDTOLeaf> assignedRoles) {
+		this(id, active, createdAt);
+		this.email = email;
+		this.password = password;
+		this.assignedRoles = assignedRoles;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<AssignedRoleDTOLeaf> getAssignedRoles() {
+		return assignedRoles;
+	}
+
+	public void setAssignedRoles(List<AssignedRoleDTOLeaf> assignedRoles) {
+		this.assignedRoles = assignedRoles;
+	}
+
+}
