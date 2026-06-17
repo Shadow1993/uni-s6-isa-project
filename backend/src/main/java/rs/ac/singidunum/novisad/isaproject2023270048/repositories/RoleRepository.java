@@ -6,5 +6,7 @@ import rs.ac.singidunum.novisad.isaproject2023270048.models.RoleModel;
 
 @Repository
 public interface RoleRepository extends BaseRepository<RoleModel> {
-
+	
+	RoleModel findByName(String name);
+	
 }

@@ -8,25 +8,25 @@ import rs.ac.singidunum.novisad.isaproject2023270048.exceptions.ResourceNotFound
 import rs.ac.singidunum.novisad.isaproject2023270048.models.BaseModel;
 import rs.ac.singidunum.novisad.isaproject2023270048.repositories.BaseRepository;
 
-public abstract class BaseService<T extends BaseModel> {
+public abstract class BaseService<T extends BaseModel, R extends BaseRepository<T>> {
 
-	BaseRepository<T> repo;
+	R repo;
 
-	public BaseService(BaseRepository<T> repo) {
+	public BaseService(R repo) {
 		this.repo = repo;
 	}
 
 	public List<T> findAll() {
-		return repo.findAll();
+		return this.repo.findAll();
 	}
 
 	public T findById(Long id) {
-		return repo.findById(id)
+		return this.repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Item not found"));
 	}
 
 	public T create(T item) {
-		return repo.save(item);
+		return this.repo.save(item);
 	}
 
 	public T update(Long id, T item) {
@@ -34,7 +34,7 @@ public abstract class BaseService<T extends BaseModel> {
 
 		item.setId(id);
 
-		return repo.save(item);
+		return this.repo.save(item);
 	}
 
 	public T updatePatch(Long id, T item) {
@@ -51,7 +51,7 @@ public abstract class BaseService<T extends BaseModel> {
 				throw new PatchFailedException("Patch failed for field: " + field.getName());
 			}
 		}
-		return repo.save(exists);
+		return this.repo.save(exists);
 	}
 
 	public boolean delete(T item) {
@@ -60,8 +60,17 @@ public abstract class BaseService<T extends BaseModel> {
 
 	public boolean deleteById(Long id) {
 		this.findById(id);
-		repo.deleteById(id);
+		this.repo.deleteById(id);
 		return true;
+	}
+	
+	public List<T> findAllActive() {
+		return this.repo.findByActiveTrue();
+	}
+	
+	public T findByIdActive(Long id) {
+		return this.repo.findByIdAndActiveTrue(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Item not found"));
 	}
 
 }

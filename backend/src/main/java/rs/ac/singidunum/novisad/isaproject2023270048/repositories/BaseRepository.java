@@ -1,11 +1,16 @@
 package rs.ac.singidunum.novisad.isaproject2023270048.repositories;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import rs.ac.singidunum.novisad.isaproject2023270048.models.BaseModel;
-
 @NoRepositoryBean
-public interface BaseRepository<T extends BaseModel> extends JpaRepository<T, Long> {
+public interface BaseRepository<T> extends JpaRepository<T, Long> {
+	
+	List<T> findByActiveTrue();
+	
+	Optional<T> findByIdAndActiveTrue(Long id);
 	
 }

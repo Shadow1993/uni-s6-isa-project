@@ -6,7 +6,7 @@ import rs.ac.singidunum.novisad.isaproject2023270048.models.ImageModel;
 import rs.ac.singidunum.novisad.isaproject2023270048.repositories.ImageRepository;
 
 @Service
-public class ImageService extends BaseService<ImageModel> {
+public class ImageService extends BaseService<ImageModel, ImageRepository> {
 
 	public ImageService(ImageRepository repo) {
 		super(repo);

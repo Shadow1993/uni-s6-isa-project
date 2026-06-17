@@ -7,11 +7,12 @@ import rs.ac.singidunum.novisad.isaproject2023270048.dtos.node.NodeDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.node.NodeDTOLeaf;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.NodeMapper;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.NodeModel;
+import rs.ac.singidunum.novisad.isaproject2023270048.repositories.NodeRepository;
 import rs.ac.singidunum.novisad.isaproject2023270048.services.NodeService;
 
 @RestController
 @RequestMapping(value = { "/api/nodes" })
-public class NodeController extends BaseController<NodeModel, NodeDTO, NodeDTOLeaf, NodeMapper> {
+public class NodeController extends BaseController<NodeModel, NodeRepository, NodeService, NodeDTO, NodeDTOLeaf, NodeMapper> {
 
 	public NodeController(NodeService service, NodeMapper mapper) {
 		super(service, mapper);

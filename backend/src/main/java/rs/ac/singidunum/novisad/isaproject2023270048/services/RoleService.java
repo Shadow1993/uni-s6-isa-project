@@ -6,7 +6,7 @@ import rs.ac.singidunum.novisad.isaproject2023270048.models.RoleModel;
 import rs.ac.singidunum.novisad.isaproject2023270048.repositories.RoleRepository;
 
 @Service
-public class RoleService extends BaseService<RoleModel> {
+public class RoleService extends BaseService<RoleModel, RoleRepository> {
 
 	public RoleService(RoleRepository repo) {
 		super(repo);

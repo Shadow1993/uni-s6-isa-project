@@ -7,11 +7,12 @@ import rs.ac.singidunum.novisad.isaproject2023270048.dtos.assignedrole.AssignedR
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.assignedrole.AssignedRoleDTOLeaf;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.AssignedRoleMapper;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.AssignedRoleModel;
+import rs.ac.singidunum.novisad.isaproject2023270048.repositories.AssignedRoleRepository;
 import rs.ac.singidunum.novisad.isaproject2023270048.services.AssignedRoleService;
 
 @RestController
 @RequestMapping(value = { "/api/assignedroles" })
-public class AssignedRoleController extends BaseController<AssignedRoleModel, AssignedRoleDTO, AssignedRoleDTOLeaf, AssignedRoleMapper> {
+public class AssignedRoleController extends BaseController<AssignedRoleModel, AssignedRoleRepository, AssignedRoleService, AssignedRoleDTO, AssignedRoleDTOLeaf, AssignedRoleMapper> {
 
 	public AssignedRoleController(AssignedRoleService service, AssignedRoleMapper mapper) {
 		super(service, mapper);
