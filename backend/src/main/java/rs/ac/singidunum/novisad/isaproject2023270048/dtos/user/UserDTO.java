@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.BaseDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.assignedrole.AssignedRoleDTOLeaf;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.UserModel;
@@ -11,6 +13,7 @@ import rs.ac.singidunum.novisad.isaproject2023270048.models.UserModel;
 public class UserDTO extends BaseDTO<UserModel> {
 
 	private String email;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	private List<AssignedRoleDTOLeaf> assignedRoles = new ArrayList<AssignedRoleDTOLeaf>();
 
