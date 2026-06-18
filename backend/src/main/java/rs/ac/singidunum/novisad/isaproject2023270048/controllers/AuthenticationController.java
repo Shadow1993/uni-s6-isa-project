@@ -10,7 +10,7 @@ import jakarta.security.auth.message.AuthException;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.auth.ChangePasswordDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.auth.LoginRequestDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.auth.LoginResponseDTO;
-import rs.ac.singidunum.novisad.isaproject2023270048.dtos.user.UserCleanDTO;
+import rs.ac.singidunum.novisad.isaproject2023270048.dtos.user.UserDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.UserMapper;
 import rs.ac.singidunum.novisad.isaproject2023270048.services.AuthenticationService;
 import rs.ac.singidunum.novisad.isaproject2023270048.services.UserService;
@@ -30,11 +30,13 @@ public class AuthenticationController {
 		this.userMapper = userMapper;
 	}
 
+	@PreAuthorize("isAnonymous()")
 	@PostMapping("/register")
-	public UserCleanDTO register(@RequestBody LoginRequestDTO dto) {
-		return userMapper.entityToCleanDTO(userService.register(dto.getEmail(), dto.getPassword()));
+	public UserDTO register(@RequestBody LoginRequestDTO dto) {
+		return userMapper.entityToDTO(userService.register(dto.getEmail(), dto.getPassword()));
 	}
 
+	@PreAuthorize("isAnonymous()")
 	@PostMapping("/login")
 	public LoginResponseDTO login(@RequestBody LoginRequestDTO dto) throws AuthException {
 

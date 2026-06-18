@@ -45,7 +45,7 @@ public class UserService extends BaseService<UserModel, UserRepository> {
 			throw new BusinessException("Provided email is not valid");
 		}
 		
-		if (repo.existsByEmail(email)) {
+		if (repo.existsByEmailAndActiveTrue(email)) {
 			throw new BusinessException("A user with this email already exists");
 		}
 		
@@ -60,7 +60,7 @@ public class UserService extends BaseService<UserModel, UserRepository> {
 		Object principal = authentication.getPrincipal();
         
         if (principal instanceof UserPrincipal user) {
-            UserModel savedUser = repo.findByEmail(user.getUsername());
+            UserModel savedUser = repo.findByEmailAndActiveTrue(user.getUsername());
             if (!encoder.matches(rawOldPassword, savedUser.getPassword())) {
             	throw new PatchFailedException("Incorrect original password.");
             }
@@ -92,6 +92,10 @@ public class UserService extends BaseService<UserModel, UserRepository> {
 		savedUser.setAssignedRoles(roles);
 		
 		return savedUser;
+	}
+	
+	public UserModel findByEmail(String email) {
+		return repo.findByEmailAndActiveTrue(email);
 	}
 
 }

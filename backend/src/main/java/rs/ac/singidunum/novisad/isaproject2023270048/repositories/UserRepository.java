@@ -10,8 +10,8 @@ public interface UserRepository extends BaseRepository<UserModel> {
 	
 //	Does a left join fetch grabbing roles
 	@EntityGraph(attributePaths = {"assignedRoles", "assignedRoles.role"})
-	UserModel findByEmail(String email);
+	UserModel findByEmailAndActiveTrue(String email);
 	
-	Boolean existsByEmail(String email);
+	Boolean existsByEmailAndActiveTrue(String email);
 	
 }

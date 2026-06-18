@@ -85,7 +85,7 @@ public class JWTService {
                     .getPayload();
         }
         catch(SignatureException se){
-            System.out.println("Invalid token sent");
+//            System.out.println("Invalid token sent");
         }
 
         return claims;

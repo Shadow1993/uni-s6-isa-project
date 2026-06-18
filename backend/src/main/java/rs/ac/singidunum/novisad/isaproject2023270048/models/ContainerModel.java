@@ -25,7 +25,7 @@ public class ContainerModel extends BaseModel {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private ContainerStatusEnum status;
+	private ContainerStatusEnum status = ContainerStatusEnum.STOPPED;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "image_id")
@@ -66,6 +66,14 @@ public class ContainerModel extends BaseModel {
 		this.startedAt = startedAt;
 		this.stoppedAt = stoppedAt;
 		this.status = status;
+		this.image = image;
+		this.node = node;
+		this.user = user;
+	}
+	
+	public ContainerModel(String name, ImageModel image, NodeModel node, UserModel user) {
+		this();
+		this.name = name;
 		this.image = image;
 		this.node = node;
 		this.user = user;

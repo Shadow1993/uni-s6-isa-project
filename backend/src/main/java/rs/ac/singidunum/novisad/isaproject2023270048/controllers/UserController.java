@@ -17,5 +17,5 @@ public class UserController extends BaseController<UserModel, UserRepository, Us
 	public UserController(UserService service, UserMapper mapper) {
 		super(service, mapper);
 	}
-
+	
 }
