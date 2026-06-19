@@ -8,7 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +56,7 @@ public class ContainerController extends BaseController<ContainerModel, Containe
 	@Override
 	@GetMapping(path = "/{id}", consumes = MediaType.ALL_VALUE)
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-	public ContainerDTO findById(Long id) {
+	public ContainerDTO findById(@PathVariable Long id) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof UserPrincipal user) {
@@ -81,6 +83,36 @@ public class ContainerController extends BaseController<ContainerModel, Containe
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ContainerDTO create(@RequestBody ContainerCreateDTO dto) {
 		return mapper.entityToDTO(service.create(dto));
+	}
+	
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+	@PutMapping(path = "/{id}/start")
+	public ContainerDTO startContainer(@PathVariable Long id) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof UserPrincipal user) {
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+				return mapper.entityToDTO(this.service.startContainer(id));
+			} else if (user.getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
+				return mapper.entityToDTO(this.service.startContainerForUser(id, user.getUsername().toString()));
+			}
+		}
+		return null;
+	}
+	
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+	@PutMapping(path = "/{id}/stop")
+	public ContainerDTO stopContainer(@PathVariable Long id) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof UserPrincipal user) {
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+				return mapper.entityToDTO(this.service.stopContainer(id));
+			} else if (user.getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
+				return mapper.entityToDTO(this.service.stopContainerForUser(id, user.getUsername().toString()));
+			}
+		}
+		return null;
 	}
 	
 	

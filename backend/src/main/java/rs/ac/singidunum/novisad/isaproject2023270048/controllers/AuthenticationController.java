@@ -2,6 +2,7 @@ package rs.ac.singidunum.novisad.isaproject2023270048.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,7 @@ public class AuthenticationController {
 	}
 
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-	@PostMapping("/changepassword")
+	@PutMapping("/changepassword")
 	public Boolean changePassword(@RequestBody ChangePasswordDTO dto) {
 		return userService.changePassword(dto.getOldPassword(), dto.getNewPassword());
 	}
