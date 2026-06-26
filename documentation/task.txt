@@ -1,0 +1,3 @@
+Potrebno je predati zip arhivu sa kodom projekta,
+skriptu za kreiranje baze i dodavanje dummy podataka,
+kao i kratku dokumentaciju koja opisuje implementirane funkcionalnosti. 
