@@ -17,5 +17,9 @@ spring:
     properties:
       hibernate:
         dialect: ${SPRING_DATASOURCE_DIALECT}
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 server:
     port: ${PORT}
