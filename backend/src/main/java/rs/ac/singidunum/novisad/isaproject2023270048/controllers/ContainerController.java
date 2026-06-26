@@ -27,13 +27,12 @@ import rs.ac.singidunum.novisad.isaproject2023270048.services.ContainerService;
 
 @RestController
 @RequestMapping(value = { "/api/containers" })
-public class ContainerController extends BaseController<ContainerModel, ContainerRepository, ContainerService, ContainerDTO, ContainerDTOLeaf, ContainerMapper> {
+public class ContainerController extends
+		BaseController<ContainerModel, ContainerRepository, ContainerService, ContainerDTO, ContainerDTOLeaf, ContainerMapper> {
 
 	public ContainerController(ContainerService service, ContainerMapper mapper) {
 		super(service, mapper);
 	}
-	
-	
 
 	@Override
 	@GetMapping(consumes = MediaType.ALL_VALUE)
@@ -45,13 +44,12 @@ public class ContainerController extends BaseController<ContainerModel, Containe
 			if (user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
 				return super.findAll();
 			} else if (user.getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
-				return this.service.findAllActiveForUserEmail(user.getUsername()).stream().map(e -> mapper.entityToDTO(e)).toList();
+				return this.service.findAllActiveForUserEmail(user.getUsername()).stream()
+						.map(e -> mapper.entityToDTO(e)).toList();
 			}
 		}
 		return null;
 	}
-
-
 
 	@Override
 	@GetMapping(path = "/{id}", consumes = MediaType.ALL_VALUE)
@@ -69,22 +67,18 @@ public class ContainerController extends BaseController<ContainerModel, Containe
 		return null;
 	}
 
-
-
 	@Hidden
 	@Override
 	public ContainerDTO create(ContainerDTO item) {
 		return super.create(item);
 	}
 
-
-
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ContainerDTO create(@RequestBody ContainerCreateDTO dto) {
 		return mapper.entityToDTO(service.create(dto));
 	}
-	
+
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@PutMapping(path = "/{id}/start")
 	public ContainerDTO startContainer(@PathVariable Long id) {
@@ -99,7 +93,7 @@ public class ContainerController extends BaseController<ContainerModel, Containe
 		}
 		return null;
 	}
-	
+
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@PutMapping(path = "/{id}/stop")
 	public ContainerDTO stopContainer(@PathVariable Long id) {
@@ -114,7 +108,5 @@ public class ContainerController extends BaseController<ContainerModel, Containe
 		}
 		return null;
 	}
-	
-	
 
 }

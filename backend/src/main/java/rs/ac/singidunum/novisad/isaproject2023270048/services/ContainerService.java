@@ -36,12 +36,12 @@ public class ContainerService extends BaseService<ContainerModel, ContainerRepos
 
 	@Transactional
 	public ContainerModel create(ContainerCreateDTO createDto) {
-		ImageModel image = imageService.findById(createDto.getImageId());
-		NodeModel node = nodeService.findBestNode(createDto.getClusterId(), image);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof UserPrincipal userPrincipal) {
 			UserModel user = userService.findByEmail(userPrincipal.getUsername());
+			ImageModel image = imageService.findById(createDto.getImageId());
+			NodeModel node = nodeService.findBestNode(createDto.getClusterId(), image);
 
 			ContainerModel container = new ContainerModel(createDto.getName(), image, node, user);
 			return super.create(container);
