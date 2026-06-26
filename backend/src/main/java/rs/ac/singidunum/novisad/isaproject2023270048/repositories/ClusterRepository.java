@@ -6,5 +6,5 @@ import rs.ac.singidunum.novisad.isaproject2023270048.models.ClusterModel;
 
 @Repository
 public interface ClusterRepository extends BaseRepository<ClusterModel> {
-
+	boolean existsByName(String name);
 }
