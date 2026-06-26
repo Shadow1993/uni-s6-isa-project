@@ -9,9 +9,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import rs.ac.singidunum.novisad.isaproject2023270048.dtos.cluster.ClusterCreateDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.cluster.ClusterDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.cluster.ClusterDTOLeaf;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.ClusterMapper;
@@ -58,6 +62,18 @@ public class ClusterController extends BaseController<ClusterModel, ClusterRepos
 			}
 		}
 		return null;
+	}
+	
+	@Hidden
+	@Override
+	public ClusterDTO create(ClusterDTO item) {
+		return super.create(item);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ClusterDTO create(@RequestBody ClusterCreateDTO dto) {
+		return mapper.entityToDTO(service.create(dto));
 	}
 
 }

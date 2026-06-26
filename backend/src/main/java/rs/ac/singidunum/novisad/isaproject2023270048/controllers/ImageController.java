@@ -8,9 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import rs.ac.singidunum.novisad.isaproject2023270048.dtos.image.ImageCreateDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.image.ImageDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.image.ImageDTOLeaf;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.ImageMapper;
@@ -21,12 +25,13 @@ import rs.ac.singidunum.novisad.isaproject2023270048.services.ImageService;
 
 @RestController
 @RequestMapping(value = { "/api/images" })
-public class ImageController extends BaseController<ImageModel, ImageRepository, ImageService, ImageDTO, ImageDTOLeaf, ImageMapper> {
+public class ImageController
+		extends BaseController<ImageModel, ImageRepository, ImageService, ImageDTO, ImageDTOLeaf, ImageMapper> {
 
 	public ImageController(ImageService service, ImageMapper mapper) {
 		super(service, mapper);
 	}
-	
+
 	@Override
 	@GetMapping(consumes = MediaType.ALL_VALUE)
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
@@ -57,6 +62,18 @@ public class ImageController extends BaseController<ImageModel, ImageRepository,
 			}
 		}
 		return null;
+	}
+
+	@Hidden
+	@Override
+	public ImageDTO create(ImageDTO item) {
+		return super.create(item);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ImageDTO create(@RequestBody ImageCreateDTO dto) {
+		return mapper.entityToDTO(service.create(dto));
 	}
 
 }
