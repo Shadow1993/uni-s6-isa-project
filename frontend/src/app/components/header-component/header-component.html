@@ -1,0 +1,12 @@
+@if (isLoggedIn()) {
+<header>
+    <nav>
+        <ul>
+            <li><a [routerLink]="['']" matButton="tonal">Home</a></li>
+            <li><a [routerLink]="['containers']" matButton="tonal">Containers</a></li>
+
+            <li class="logout"><a (click)="logout()" matButton="tonal">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+}

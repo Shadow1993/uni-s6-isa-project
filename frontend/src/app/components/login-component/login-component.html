@@ -1,0 +1,26 @@
+<div class="login-wrapper">
+    <form class="login-form" [formGroup]="form" (submit)="login()">
+        <h1>Login</h1>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+            @if (form.get("email")?.hasError('email') && !form.get("email")?.hasError('required')) {
+            <mat-error>Please enter a valid email address</mat-error>
+            }
+            @if (form.get("email")?.hasError('required')) {
+            <mat-error>Email is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password">
+            @if (form.get("password")?.hasError('required')) {
+            <mat-error>Password is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <section class="login-buttons">
+            <button [disabled]="!form.valid" type="submit" matButton="filled">Login</button>
+            <button type="reset" matButton="outlined">Clear</button>
+        </section>
+    </form>
+</div>

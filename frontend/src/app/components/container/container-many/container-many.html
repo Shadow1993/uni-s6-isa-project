@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Activity <button (click)="add()">+</button></td>
+        </tr>
+    </thead>
+    <tbody>
+        @for(entity of entities(); track entity.id) {
+        <tr>
+            <td>{{entity.id}}</td>
+            <td>{{entity.name}}</td>
+            <td>
+                <button (click)="detail(entity.id!)">D</button>
+                <button (click)="update(entity.id!)">E</button>
+                <button (click)="delete(entity.id!)">X</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
