@@ -3,7 +3,6 @@ package rs.ac.singidunum.novisad.isaproject2023270048.exceptions;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -45,6 +44,19 @@ public class GlobalExceptionHandler {
         return new org.springframework.http.ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
     
+    @ExceptionHandler(io.jsonwebtoken.security.SignatureException.class)
+    public org.springframework.http.ResponseEntity<ErrorResponse> handleSignatureException(
+    		io.jsonwebtoken.security.SignatureException ex, HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Bad token",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new org.springframework.http.ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+    
     @ExceptionHandler(PatchFailedException.class)
     public org.springframework.http.ResponseEntity<ErrorResponse> handlePatchFailedException (
             PatchFailedException ex,
@@ -84,19 +96,6 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return new org.springframework.http.ResponseEntity<>(error, HttpStatus.FORBIDDEN);
-    }
-    
-    @ExceptionHandler(BadCredentialsException.class)
-    public org.springframework.http.ResponseEntity<ErrorResponse> handleBadCredentialsException(
-    		BadCredentialsException ex, HttpServletRequest request) {
-
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                "Bad credentials",
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-        return new org.springframework.http.ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
     
     @ExceptionHandler(UsernameNotFoundException.class)

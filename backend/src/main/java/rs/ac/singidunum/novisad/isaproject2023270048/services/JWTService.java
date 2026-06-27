@@ -1,9 +1,11 @@
 package rs.ac.singidunum.novisad.isaproject2023270048.services;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -17,12 +19,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
+import rs.ac.singidunum.novisad.isaproject2023270048.models.AssignedRoleModel;
+import rs.ac.singidunum.novisad.isaproject2023270048.models.UserModel;
 
 @Service
 public class JWTService {
 
-    private String secretKey = "";
+    private String secretKey = "supersercret";
     public JWTService(){
         KeyGenerator keyGen = null;
         try {
@@ -35,13 +38,17 @@ public class JWTService {
         secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
     }
 
-    public String generateToken(String username){
+    public String generateToken(UserModel user){
         Map<String, Object> claims = new HashMap<String, Object>();
-
+        List<String> assignedRoles = new ArrayList<String>();
+        for (AssignedRoleModel assignedRole: user.getAssignedRoles()) {
+        	assignedRoles.add(assignedRole.getRole().getName());
+        }
+        claims.put("assignedRoles", assignedRoles);
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(user.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)))
                 .and()
@@ -77,16 +84,12 @@ public class JWTService {
     private Claims extractAllClaims(String token){
         Claims claims = Jwts.claims().build();
 
-        try{
-            claims = Jwts.parser()
-                    .verifyWith(getKey())
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
-        }
-        catch(SignatureException se){
-//            System.out.println("Invalid token sent");
-        }
+        claims = Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
 
         return claims;
     }
