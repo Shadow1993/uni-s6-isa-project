@@ -38,5 +38,28 @@ public class ClusterService extends BaseService<ClusterModel, ClusterRepository>
 		return null;
 
 	}
+	
+	@Transactional
+	public ClusterModel update(Long id, ClusterCreateDTO clusterDto) {
+
+		ClusterModel cluster = findById(id);
+		cluster.setName(clusterDto.getName());
+		
+		return super.update(id, cluster);
+
+	}
+	
+	@Transactional
+	public ClusterModel updatePatch(Long id, ClusterCreateDTO clusterDto) {
+
+		ClusterModel cluster = findById(id);
+		if (clusterDto.getName() != null) {
+			
+		}
+		cluster.setName(clusterDto.getName());
+		
+		return super.updatePatch(id, cluster);
+
+	}
 
 }

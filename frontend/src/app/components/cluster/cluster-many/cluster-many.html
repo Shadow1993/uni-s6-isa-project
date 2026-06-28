@@ -1,1 +1,32 @@
-<p>cluster-many works!</p>
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            @if (validateRoles(['ADMIN'])) {
+            <td>User</td>
+            <td>Created at</td>
+            <td>Active</td>
+            }
+            <td>Activity <button [hidden]="!validateRoles(['ADMIN'])" (click)="add()">+</button></td>
+        </tr>
+    </thead>
+    <tbody>
+        @for(entity of entities(); track entity.id) {
+        <tr>
+            <td>{{entity.id}}</td>
+            <td>{{entity.name}}</td>
+            @if (validateRoles(['ADMIN'])) {
+            <td>{{entity.user.email}}</td>
+            <td>{{entity.createdAt | date: "dd. MM yyyy '@' HH:mm:ss"}}</td>
+            <td>{{entity.active}}</td>
+            }
+            <td>
+                <button (click)="detail(entity.id!)">D</button>
+                <button [hidden]="!validateRoles(['ADMIN'])" (click)="update(entity.id!)">E</button>
+                <button [hidden]="!validateRoles(['ADMIN'])" (click)="delete(entity.id!)">X</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

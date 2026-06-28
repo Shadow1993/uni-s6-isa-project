@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginPost } from 'app/models/login-post';
 import { LoginResponse } from 'app/models/login-response';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class LoginService {
   private http: HttpClient = inject(HttpClient);
   private router: Router = inject(Router);
 
-  private url = "http://localhost:8080/auth/login"
+  private url = "http://localhost:8080/auth"
   token: string = "";
 
   constructor() {
@@ -37,7 +37,7 @@ export class LoginService {
   }
 
   login(user: LoginPost): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.url}`, user).pipe(tap((res: LoginResponse) => {
+    return this.http.post<LoginResponse>(`${this.url}/login`, user).pipe(tap((res: LoginResponse) => {
       this.token = res["token"];
       localStorage.setItem("token", this.token);
     }));
@@ -78,6 +78,22 @@ export class LoginService {
     }
 
     return false;
+  }
+
+  register(user: { email: string; password: string; }) {
+    if (!this.isLoggedIn()) {
+      return this.http.post<any>(`${this.url}/register`, user);
+    } else {
+      return of(null);
+    }
+  }
+
+  changePassword(user: { oldPassword: string; newPassword: string; }) {
+    if (this.isLoggedIn()) {
+      return this.http.put<boolean>(`${this.url}/changepassword`, user);
+    } else {
+      return of(false);
+    }
   }
 
 }

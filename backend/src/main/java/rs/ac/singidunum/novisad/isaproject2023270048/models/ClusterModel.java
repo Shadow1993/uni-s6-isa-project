@@ -1,11 +1,14 @@
 package rs.ac.singidunum.novisad.isaproject2023270048.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +21,9 @@ public class ClusterModel extends BaseModel {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	private UserModel user;
+	
+	@OneToMany(mappedBy = "cluster")
+	private List<NodeModel> nodes = new ArrayList<NodeModel>();
 
 	public ClusterModel() {
 		super();
@@ -38,6 +44,13 @@ public class ClusterModel extends BaseModel {
 		this.name = name;
 		this.user = user;
 	}
+	
+	public ClusterModel(String name, UserModel user, List<NodeModel> nodes) {
+		super();
+		this.name = name;
+		this.user = user;
+		this.nodes = nodes;
+	}
 
 	public String getName() {
 		return name;
@@ -53,6 +66,14 @@ public class ClusterModel extends BaseModel {
 
 	public void setUser(UserModel user) {
 		this.user = user;
+	}
+
+	public List<NodeModel> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(List<NodeModel> nodes) {
+		this.nodes = nodes;
 	}
 	
 }

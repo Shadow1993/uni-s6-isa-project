@@ -7,7 +7,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +21,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.container.ContainerCreateDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.container.ContainerDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.container.ContainerDTOLeaf;
+import rs.ac.singidunum.novisad.isaproject2023270048.exceptions.PatchFailedException;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.ContainerMapper;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.ContainerModel;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.UserPrincipal;
@@ -70,7 +73,7 @@ public class ContainerController extends
 	@Hidden
 	@Override
 	public ContainerDTO create(ContainerDTO item) {
-		return super.create(item);
+		throw new PatchFailedException("Bad request");
 	}
 
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
@@ -108,5 +111,34 @@ public class ContainerController extends
 		}
 		return null;
 	}
+	
+	@Hidden
+	@Override
+	public ContainerDTO updatePut(Long id, ContainerDTO item) {
+		throw new PatchFailedException("Bad request");
+	}
 
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ContainerDTO updatePut(@PathVariable  Long id, @RequestBody ContainerCreateDTO item) {
+		return mapper.entityToDTO(service.update(id, item));
+	}
+	
+	@Hidden
+	@Override
+	public ContainerDTO updatePatch(Long id, ContainerDTO item) {
+		throw new PatchFailedException("Bad request");
+	}
+
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+	@PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ContainerDTO updatePatch(@PathVariable Long id, @RequestBody ContainerCreateDTO item) {
+		return mapper.entityToDTO(service.updatePatch(id, item));
+	}
+
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+	@DeleteMapping(path = "/{id}", consumes = MediaType.ALL_VALUE)
+	public boolean delete(@PathVariable Long id) {
+		return service.deleteById(id);
+	}
 }

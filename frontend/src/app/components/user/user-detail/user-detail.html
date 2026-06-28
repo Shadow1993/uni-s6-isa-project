@@ -1,1 +1,13 @@
-<p>user-detail works!</p>
+@if (entity(); as ent) {
+    <p>ID: {{ent.id}}</p>
+    <p>Name: {{ent.email}}</p>
+    <p>Created at: {{ent.createdAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+    <p>Active: {{ent.active}}</p>
+    <p>Roles:</p>
+    <ul>
+        @for (item of ent.assignedRoles; track item.id) {
+            <li>{{item.role.name}}</li>
+        }
+    </ul>
+
+}

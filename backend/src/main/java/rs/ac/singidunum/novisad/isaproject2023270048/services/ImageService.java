@@ -46,5 +46,58 @@ public class ImageService extends BaseService<ImageModel, ImageRepository> {
 		return null;
 
 	}
+	
+	@Transactional
+	public ImageModel update(Long id, ImageCreateDTO imageDto) {
+
+		ImageModel image = findById(id);
+		image.setName(imageDto.getName());
+		image.setUrl(imageDto.getUrl());
+		
+		if (image.getRequiredRam() < 1) {
+			throw new BusinessException("requiredRam cannot be less than 1 MB");
+		}
+		image.setRequiredRam(imageDto.getRequiredRam());
+		if (image.getRequiredStorage() < 1) {
+			throw new BusinessException("requiredStorage cannot be less than 1 MB");
+		}
+		image.setRequiredStorage(imageDto.getRequiredStorage());
+		if (image.getVersion() < 1) {
+			throw new BusinessException("version cannot be less than 1");
+		}
+		image.setVersion(imageDto.getVersion());
+		
+		return super.create(image);
+
+	}
+	
+	@Transactional
+	public ImageModel updatePatch(Long id, ImageCreateDTO imageDto) {
+
+		ImageModel image = findById(id);
+		
+		if (imageDto.getName() != null) {			
+			image.setName(imageDto.getName());
+		}
+		if (imageDto.getUrl() != null) {
+			image.setUrl(imageDto.getUrl());
+		}
+
+		if (image.getRequiredRam() < 1) {
+			throw new BusinessException("requiredRam cannot be less than 1 MB");
+		}
+		image.setRequiredRam(imageDto.getRequiredRam());
+
+		if (image.getRequiredStorage() < 1) {
+			throw new BusinessException("requiredStorage cannot be less than 1 MB");
+		}
+		image.setRequiredStorage(imageDto.getRequiredStorage());
+		if (image.getVersion() < 1) {
+			throw new BusinessException("version cannot be less than 1");
+		}
+		image.setVersion(imageDto.getVersion());
+		
+		return super.create(image);
+	}
 
 }

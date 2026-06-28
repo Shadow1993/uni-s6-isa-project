@@ -6,11 +6,14 @@ import { ConfirmDialogComponent } from "app/components/dialogs/confirm-dialog-co
 import { BaseModel } from "app/models/base-model";
 import { ConfirmDialog } from "app/models/confirm-dialog";
 import { BaseService } from "app/services/base/base-service";
+import { LoginService } from "app/services/login/login-service";
 
 @Directive()
 export abstract class BaseDetail<T extends BaseModel> implements OnInit {
 
   protected abstract urlRoute: string;
+
+  private loginService: LoginService = inject(LoginService);
 
   protected activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   protected abstract service: BaseService<T>;
@@ -54,5 +57,9 @@ export abstract class BaseDetail<T extends BaseModel> implements OnInit {
 
   update(id: number) {
     this.router.navigateByUrl(`${this.urlRoute}/${id}/edit`);
+  }
+
+  validateRoles(roles: any) {
+    return this.loginService.validateRoles(roles);
   }
 }

@@ -1,1 +1,32 @@
-<p>image-form works!</p>
+<form [formGroup]="entity" (submit)="onSubmit()">
+    <div>
+        <label for="name"> Name: </label>
+        <input type="text" formControlName="name" name="name" />
+    </div>
+    <div>
+        <label for="requiredRam"> Required RAM: </label>
+        <input type="number" formControlName="requiredRam" name="requiredRam" />
+    </div>
+    <div>
+        <label for="requiredStorage"> Required Storage: </label>
+        <input type="number" formControlName="requiredStorage" name="requiredStorage" />
+    </div>
+    <div>
+        <label for="url"> URL: </label>
+        <input type="text" formControlName="url" name="url" />
+    </div>
+    <div>
+        <label for="version"> Version: </label>
+        <input type="number" formControlName="version" name="version" />
+    </div>
+
+    <div>
+        <button>
+            @if (id() === null) {
+            Add
+            } @else {
+            Update
+            }
+        </button>
+    </div>
+</form>

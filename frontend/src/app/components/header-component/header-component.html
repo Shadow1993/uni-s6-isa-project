@@ -4,7 +4,12 @@
         <ul>
             <li><a [routerLink]="['']" matButton="tonal">Home</a></li>
             <li><a [routerLink]="['containers']" matButton="tonal">Containers</a></li>
+            <li><a [routerLink]="['images']" matButton="tonal">Images</a></li>
+            <li><a [routerLink]="['clusters']" matButton="tonal">Clusters</a></li>
+            <li><a [hidden]="!validateRoles(['ADMIN'])" [routerLink]="['nodes']" matButton="tonal">Nodes</a></li>
+            <li><a [hidden]="!validateRoles(['ADMIN'])" [routerLink]="['users']" matButton="tonal">Users</a></li>
 
+            <li class="changepassword"><a [routerLink]="['/changepassword']" matButton="tonal">Change Password</a></li>
             <li class="logout"><a (click)="logout()" matButton="tonal">Logout</a></li>
         </ul>
     </nav>

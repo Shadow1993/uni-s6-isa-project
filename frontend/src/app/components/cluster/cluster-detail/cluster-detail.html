@@ -1,1 +1,19 @@
-<p>cluster-detail works!</p>
+@if (entity(); as ent) {
+    <p>ID: {{ent.id}}</p>
+    <p>Name: {{ent.name}}</p>
+    @if (validateRoles(['ADMIN'])) {
+        <p>User: {{ent.user.email}}</p>
+        <p>Created at: {{ent.createdAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+        <p>Active: {{ent.active}}</p>
+
+        <p>Nodes:</p>
+        <ul>
+            @for (node of ent.nodes; track node.id) {
+                <li>
+                    {{node.name}}
+                </li>
+            }
+        </ul>
+
+    }
+}

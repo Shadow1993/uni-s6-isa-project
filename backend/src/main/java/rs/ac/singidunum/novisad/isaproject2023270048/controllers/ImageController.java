@@ -8,7 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +20,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.image.ImageCreateDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.image.ImageDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.image.ImageDTOLeaf;
+import rs.ac.singidunum.novisad.isaproject2023270048.exceptions.PatchFailedException;
 import rs.ac.singidunum.novisad.isaproject2023270048.mappers.ImageMapper;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.ImageModel;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.UserPrincipal;
@@ -67,7 +71,7 @@ public class ImageController
 	@Hidden
 	@Override
 	public ImageDTO create(ImageDTO item) {
-		return super.create(item);
+		throw new PatchFailedException("Bad request");
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -75,5 +79,31 @@ public class ImageController
 	public ImageDTO create(@RequestBody ImageCreateDTO dto) {
 		return mapper.entityToDTO(service.create(dto));
 	}
+
+	@Hidden
+	@Override
+	public ImageDTO updatePut(Long id, ImageDTO item) {
+		throw new PatchFailedException("Bad request");
+	}
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ImageDTO updatePut(@PathVariable  Long id, @RequestBody ImageCreateDTO item) {
+		return mapper.entityToDTO(service.update(id, item));
+	}
+
+	@Hidden
+	@Override
+	public ImageDTO updatePatch(Long id, ImageDTO item) {
+		throw new PatchFailedException("Bad request");
+	}
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ImageDTO updatePatch(@PathVariable Long id, @RequestBody ImageCreateDTO item) {
+		return mapper.entityToDTO(service.updatePatch(id, item));
+	}
+	
+	
 
 }

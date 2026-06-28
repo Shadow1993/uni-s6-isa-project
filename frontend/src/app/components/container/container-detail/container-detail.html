@@ -1,3 +1,21 @@
 @if (entity(); as ent) {
-    {{ent.name}}
+    <p>ID: {{ent.id}}</p>
+    <p>Name: {{ent.name}}</p>
+    <p>Status: {{ent.status}}</p>
+    <p>Started at: {{ent.startedAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+    <p>Stopped at: {{ent.stoppedAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+    <p>Image: {{ent.image.name}}</p>
+    @if (validateRoles(['ADMIN'])) {
+        <p>Node: {{ent.node.name}}</p>
+        <p>User: {{ent.user.email}}</p>
+        <p>Created at: {{ent.createdAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+        <p>Active: {{ent.active}}</p>
+    }
+
+    @if (ent.status === "RUNNING") {
+        <button (click)="stopContainer(ent.id!)">Stop</button>
+    } @else if(ent.status === "STOPPED") {
+        <button (click)="startContainer(ent.id!)">Start</button>
+    }
+
 }

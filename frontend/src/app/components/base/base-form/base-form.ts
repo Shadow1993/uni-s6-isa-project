@@ -4,17 +4,21 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BaseModel } from "app/models/base-model";
 import { BaseService } from "app/services/base/base-service";
+import { LoginService } from "app/services/login/login-service";
 
 @Directive()
 export abstract class BaseForm<T extends BaseModel> implements OnInit {
 
+
+  private loginService: LoginService = inject(LoginService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
   protected abstract service: BaseService<T>;
   protected abstract urlRoute: string;
   abstract entity: FormGroup;
-  id: WritableSignal<number | null> = signal(null);
+  protected ent: WritableSignal<T | null> = signal(null);;
+  protected id: WritableSignal<number | null> = signal(null);
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((parameters) => {
@@ -22,6 +26,7 @@ export abstract class BaseForm<T extends BaseModel> implements OnInit {
         this.id.set(parameters["id"]);
         this.service.getById(parameters["id"]).subscribe((entity: T) => {
           this.entity.patchValue(entity);
+          this.ent.set(entity);
         });
       }
     });
@@ -52,5 +57,9 @@ export abstract class BaseForm<T extends BaseModel> implements OnInit {
 
   private redirect = () => {
     this.router.navigateByUrl(`/${this.urlRoute}`);
+  }
+
+  validateRoles(roles: any) {
+    return this.loginService.validateRoles(roles);
   }
 }

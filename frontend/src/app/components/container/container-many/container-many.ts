@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { BaseMany } from 'app/components/base/base-many/base-many';
 import { ContainerModel } from 'app/models/container-model';
@@ -5,7 +6,7 @@ import { ContainerService } from 'app/services/container/container-service';
 
 @Component({
   selector: 'app-container-many',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './container-many.html',
   styleUrl: './container-many.scss',
 })

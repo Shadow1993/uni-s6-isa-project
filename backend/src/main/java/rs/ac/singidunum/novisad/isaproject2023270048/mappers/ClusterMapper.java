@@ -8,7 +8,7 @@ import rs.ac.singidunum.novisad.isaproject2023270048.dtos.cluster.ClusterDTOLeaf
 import rs.ac.singidunum.novisad.isaproject2023270048.models.ClusterModel;
 
 @Component
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { NodeMapper.class })
 public abstract class ClusterMapper extends BaseMapper<ClusterModel, ClusterDTO, ClusterDTOLeaf> {
 
 }

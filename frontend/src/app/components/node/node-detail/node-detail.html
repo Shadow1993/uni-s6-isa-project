@@ -1,1 +1,15 @@
-<p>node-detail works!</p>
+@if (entity(); as ent) {
+    <p>ID: {{ent.id}}</p>
+    <p>Name: {{ent.name}}</p>
+    <p>Status: {{ent.status}}</p>
+    <p>URL: {{ent.url}} MB</p>
+    <p>RAM: {{ent.ram}} MB</p>
+    <p>Storage: {{ent.storage}}</p>
+    <p>Cluster: {{ent.cluster.name}}</p>
+    @if (validateRoles(['ADMIN'])) {
+        <p>User: {{ent.user.email}}</p>
+        <p>Created at: {{ent.createdAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+        <p>Active: {{ent.active}}</p>
+    }
+
+}

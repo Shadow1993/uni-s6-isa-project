@@ -58,19 +58,74 @@ public class NodeService extends BaseService<NodeModel, NodeRepository> {
 
 			ClusterModel cluster = clusterService.findByIdActive(nodeDto.getClusterId());
 
-			NodeModel image = new NodeModel(nodeDto.getName(), nodeDto.getRam(), nodeDto.getStorage(), nodeDto.getUrl(),
+			NodeModel node = new NodeModel(nodeDto.getName(), nodeDto.getRam(), nodeDto.getStorage(), nodeDto.getUrl(),
 					NodeStatusEnum.ONLINE, cluster, user);
 
-			if (image.getRam() < 1) {
+			if (node.getRam() < 1) {
 				throw new BusinessException("ram cannot be less than 1 MB");
 			}
-			if (image.getStorage() < 1) {
+			if (node.getStorage() < 1) {
 				throw new BusinessException("storage cannot be less than 1 MB");
 			}
 
-			return super.create(image);
+			return super.create(node);
 		}
 		return null;
+
+	}
+	
+	@Transactional
+	public NodeModel update(Long id, NodeCreateDTO nodeDto) {
+		
+		NodeModel node = findById(id);
+		
+		node.setName(nodeDto.getName());
+		node.setUrl(nodeDto.getUrl());
+
+		ClusterModel cluster = clusterService.findByIdActive(nodeDto.getClusterId());
+
+		node.setCluster(cluster);
+
+		if (node.getRam() < 1) {
+			throw new BusinessException("ram cannot be less than 1 MB");
+		}
+		node.setRam(nodeDto.getRam());
+		if (node.getStorage() < 1) {
+			throw new BusinessException("storage cannot be less than 1 MB");
+		}
+		node.setStorage(nodeDto.getStorage());
+
+		return super.update(id, node);
+
+	}
+	
+	@Transactional
+	public NodeModel updatePatch(Long id, NodeCreateDTO nodeDto) {
+		
+		NodeModel node = findById(id);
+		
+		if (nodeDto.getName() != null) {			
+			node.setName(nodeDto.getName());
+		}
+		if (nodeDto.getUrl() != null) {			
+			node.setUrl(nodeDto.getUrl());
+		}
+
+		if (nodeDto.getClusterId() != null) {
+			ClusterModel cluster = clusterService.findByIdActive(nodeDto.getClusterId());
+			node.setCluster(cluster);
+		}
+
+		if (node.getRam() < 1) {
+			throw new BusinessException("ram cannot be less than 1 MB");
+		}
+		node.setRam(nodeDto.getRam());
+		if (node.getStorage() < 1) {
+			throw new BusinessException("storage cannot be less than 1 MB");
+		}
+		node.setStorage(nodeDto.getStorage());
+
+		return super.updatePatch(id, node);
 
 	}
 }

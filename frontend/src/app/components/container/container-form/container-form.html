@@ -4,11 +4,27 @@
     <input type="text" formControlName="name" name="name" />
   </div>
   <div>
+    <select formControlName="imageId" name="imageId">
+      <option value="0" disabled>Choose Image..</option>
+      @for(image of images(); track image.id) {
+      <option [value]="image.id">{{image.name}}</option>
+      }
+    </select>
+  </div>
+  <div>
+    <select formControlName="clusterId" name="clusterId">
+      <option value="0" disabled>Choose Cluster..</option>
+      @for(cluster of clusters(); track cluster.id) {
+      <option [value]="cluster.id">{{cluster.name}}</option>
+      }
+    </select>
+  </div>
+  <div>
     <button>
       @if (id() === null) {
-        Add
+      Add
       } @else {
-        Update
+      Update
       }
     </button>
   </div>

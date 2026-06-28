@@ -10,6 +10,8 @@ export const rolesGuard: CanActivateFn = (route, state) => {
     return true;
   } else if (loginService.token == "") {
     return router.parseUrl('/login');
+  } else {
+    return router.parseUrl('')
   }
 
   // if (loginService.token != "") {

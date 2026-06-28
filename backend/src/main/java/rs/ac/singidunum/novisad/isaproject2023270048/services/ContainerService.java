@@ -49,6 +49,44 @@ public class ContainerService extends BaseService<ContainerModel, ContainerRepos
 		return null;
 
 	}
+	
+	@Transactional
+	public ContainerModel update(Long id, ContainerCreateDTO dto) {
+		
+		ContainerModel container = findById(id);
+		container.setName(dto.getName());
+		
+		ImageModel image = imageService.findByIdActive(dto.getImageId());
+		NodeModel node = nodeService.findBestNode(dto.getClusterId(), image);
+
+		container.setImage(image);
+		container.setNode(node);
+		return super.update(id, container);
+
+	}
+	
+	@Transactional
+	public ContainerModel updatePatch(Long id, ContainerCreateDTO dto) {
+		ContainerModel container = findById(id);
+		if (dto.getName() != null) {			
+			container.setName(dto.getName());
+		}
+		
+		ImageModel image = null;
+		NodeModel node = null;
+		
+		if (dto.getImageId() != null) {			
+			image = imageService.findByIdActive(dto.getImageId());
+			container.setImage(image);
+		}
+		if (dto.getClusterId() != null) {			
+			node = nodeService.findBestNode(dto.getClusterId(), image);
+			container.setNode(node);
+		}
+
+		return super.updatePatch(id, container);
+
+	}
 
 	public List<ContainerModel> findAllActiveForUserEmail(String email) {
 		UserModel user = userService.findByEmail(email);

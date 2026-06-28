@@ -1,1 +1,14 @@
-<p>image-detail works!</p>
+@if (entity(); as ent) {
+    <p>ID: {{ent.id}}</p>
+    <p>Name: {{ent.name}}</p>
+    <p>Required RAM: {{ent.requiredRam}}</p>
+    <p>Required Storage: {{ent.requiredStorage}}</p>
+    <p>URL: {{ent.url}}</p>
+    <p>Version: {{ent.version}}</p>
+    @if (validateRoles(['ADMIN'])) {
+        <p>User: {{ent.user.email}}</p>
+        <p>Created at: {{ent.createdAt | date: "dd. MM. yyyy. '@' HH:mm:ss"}}</p>
+        <p>Active: {{ent.active}}</p>
+    }
+
+}

@@ -7,7 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import rs.ac.singidunum.novisad.isaproject2023270048.dtos.BaseDTO;
-import rs.ac.singidunum.novisad.isaproject2023270048.dtos.assignedrole.AssignedRoleDTOLeaf;
+import rs.ac.singidunum.novisad.isaproject2023270048.dtos.assignedrole.AssignedRoleDTO;
 import rs.ac.singidunum.novisad.isaproject2023270048.models.UserModel;
 
 public class UserDTO extends BaseDTO<UserModel> {
@@ -15,7 +15,7 @@ public class UserDTO extends BaseDTO<UserModel> {
 	private String email;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
-	private List<AssignedRoleDTOLeaf> assignedRoles = new ArrayList<AssignedRoleDTOLeaf>();
+	private List<AssignedRoleDTO> assignedRoles = new ArrayList<AssignedRoleDTO>();
 
 	public UserDTO() {
 		super();
@@ -31,7 +31,7 @@ public class UserDTO extends BaseDTO<UserModel> {
 		this.password = password;
 	}
 
-	public UserDTO(String email, String password, List<AssignedRoleDTOLeaf> assignedRoles) {
+	public UserDTO(String email, String password, List<AssignedRoleDTO> assignedRoles) {
 		this();
 		this.email = email;
 		this.password = password;
@@ -45,7 +45,7 @@ public class UserDTO extends BaseDTO<UserModel> {
 	}
 
 	public UserDTO(Long id, Boolean active, LocalDateTime createdAt, String email, String password,
-			List<AssignedRoleDTOLeaf> assignedRoles) {
+			List<AssignedRoleDTO> assignedRoles) {
 		this(id, active, createdAt);
 		this.email = email;
 		this.password = password;
@@ -68,11 +68,11 @@ public class UserDTO extends BaseDTO<UserModel> {
 		this.password = password;
 	}
 
-	public List<AssignedRoleDTOLeaf> getAssignedRoles() {
+	public List<AssignedRoleDTO> getAssignedRoles() {
 		return assignedRoles;
 	}
 
-	public void setAssignedRoles(List<AssignedRoleDTOLeaf> assignedRoles) {
+	public void setAssignedRoles(List<AssignedRoleDTO> assignedRoles) {
 		this.assignedRoles = assignedRoles;
 	}
 

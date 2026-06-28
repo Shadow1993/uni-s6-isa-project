@@ -21,4 +21,8 @@ export class HeaderComponent {
     this.router.navigate(["/login"]);
   }
 
+  validateRoles(roles: any) {
+    return this.loginService.validateRoles(roles);
+  }
+
 }

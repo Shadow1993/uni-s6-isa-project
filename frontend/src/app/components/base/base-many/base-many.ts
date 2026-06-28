@@ -37,6 +37,7 @@ export abstract class BaseMany<T extends BaseModel> implements OnInit {
   refresh() {
     this.service.getAll().subscribe({
       next: (entities: T[]) => {
+        // console.log(entities);
         this.entities.set(entities)
       },
       error: (err: any) => {
@@ -55,8 +56,16 @@ export abstract class BaseMany<T extends BaseModel> implements OnInit {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
 
-        this.service.delete(id).subscribe((entity: T) => this.refresh());
-        this.snackBar.open("Deleted item successfully", 'X', { duration: 3000, verticalPosition: 'top', horizontalPosition: 'right' });
+        this.service.delete(id).subscribe({
+          next: (entity: T) => {
+            this.snackBar.open("Deleted item successfully", 'X', { duration: 3000, verticalPosition: 'top', horizontalPosition: 'right' });
+            this.refresh()
+          },
+          error: (error: any) => {
+            this.snackBar.open("Something went wrong. Item not deleted", 'X', { duration: 3000, verticalPosition: 'top', horizontalPosition: 'right' });
+          }
+        });
+
       }
     });
   }
@@ -71,5 +80,9 @@ export abstract class BaseMany<T extends BaseModel> implements OnInit {
 
   detail(id: number) {
     this.router.navigateByUrl(`${this.urlRoute}/${id}`);
+  }
+
+  validateRoles(roles: any) {
+    return this.loginService.validateRoles(roles);
   }
 }
